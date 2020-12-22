@@ -1,4 +1,5 @@
 import NotFound from './components/NotFound';
+import Main from './views/Main';
 
 export default {
     mode: 'history',
@@ -7,6 +8,10 @@ export default {
         {
             path: '*',
             component: NotFound
+        },
+        {
+            path: '/',
+            component: Main
         },
     ]
 }

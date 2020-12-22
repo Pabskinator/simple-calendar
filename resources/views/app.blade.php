@@ -9,7 +9,9 @@
     </head>
     <body>
         <div id="app">
-            <router-view></router-view>
+            <div class="container-fluid p-3">
+                <router-view></router-view>
+            </div>
         </div>
     </body>
     <script src="/js/app.js"></script>
