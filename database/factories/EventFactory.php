@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Event;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use phpDocumentor\Reflection\Types\Collection;
 
 class EventFactory extends Factory
 {
@@ -55,7 +56,7 @@ class EventFactory extends Factory
                 if($current->lessThanOrEqualTo($dateTo) && $current->dayOfWeek === $day) {
                     $dateList[] = [
                         'name' => $eventName,
-                        'date' => $current->format('Y-m-d')
+                        'date' => $current->toDateString()
                     ];
                 }
 
@@ -67,6 +68,13 @@ class EventFactory extends Factory
         return $dateList;
     }
 
+    /**
+     * Store dates on db
+     *
+     * @param array|null $dateRange
+     * @param array|null $days
+     * @return Collection
+     */
     public function createEvents(array $dateRange = null, array $days = null)
     {
         return $this->createMany($this->getEvents($dateRange, $days));

@@ -16,3 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/{any}', function () {
     return view('app');
 })->where('any', '.*');
+
+Route::post('/events', 'EventController@store')->name('events.store');
+Route::get('/events', 'EventController@index')->name('events.index');
