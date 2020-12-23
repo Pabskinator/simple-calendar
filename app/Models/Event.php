@@ -13,4 +13,15 @@ class Event extends Model
         'name',
         'date'
     ];
+
+    protected $casts = [
+        'active' => 'integer',
+        'date' => 'date'
+    ];
+
+    public static function closeOldEvents()
+    {
+        return Event::where('active', 1)
+            ->update(['active' => 0]);
+    }
 }

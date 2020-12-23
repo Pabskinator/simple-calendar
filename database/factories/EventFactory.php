@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Helpers\EventHelper;
 use App\Models\Event;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -29,46 +30,6 @@ class EventFactory extends Factory
     }
 
     /**
-     * Generate a list of events within two dates
-     * with the specified days
-     *
-     * @param array|null $dateRange
-     * @param array|null $days
-     * @return array
-     */
-    public function getEvents(array $dateRange = null, array $days = null)
-    {
-        $dateRange = $dateRange ? $dateRange : $this->generateDateRange();
-        $days = $days ? $days : $this->generateDays();
-
-        $dateFrom = Carbon::parse($dateRange['fromDate']);
-        $dateTo = Carbon::parse($dateRange['toDate']);
-        $temp = $dateFrom;
-        $dateList = [];
-        $eventName = $this->faker->catchPhrase;
-        $dayArray = (new Carbon())->getDays();
-
-        foreach ($days as $day){
-            while($temp->lessThanOrEqualTo($dateTo)) {
-
-                $current = $temp;
-
-                if($current->lessThanOrEqualTo($dateTo) && $current->dayOfWeek === $day) {
-                    $dateList[] = [
-                        'name' => $eventName,
-                        'date' => $current->toDateString()
-                    ];
-                }
-
-                $temp->next($dayArray[$day]);
-            }
-            $temp = Carbon::parse($dateRange['fromDate']);
-        }
-
-        return $dateList;
-    }
-
-    /**
      * Store dates on db
      *
      * @param array|null $dateRange
@@ -77,7 +38,7 @@ class EventFactory extends Factory
      */
     public function createEvents(array $dateRange = null, array $days = null)
     {
-        return $this->createMany($this->getEvents($dateRange, $days));
+        return $this->createMany((new EventHelper())->getEvents($dateRange, $days, $this->faker->catchPhrase));
     }
 
     /**

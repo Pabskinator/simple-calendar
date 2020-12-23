@@ -2,33 +2,64 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\EventHelper;
 use App\Models\Event;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 class EventController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return array|Response
-     */
     public function index()
     {
-        $events = Event::whereActive(1)->get();
+        $events = Event::where('active', 1)->get();
 
-        return compact('events');
+        $months = (new EventHelper())->extractMonthsWithinDates($events);
+
+        $months_and_days = (new EventHelper())->extractDaysWithinAMonth($months);
+
+        return compact('events', 'months_and_days');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return Response
-     */
     public function store(Request $request)
     {
-        return Event::insert($request->all());
+        $this->validateEvents($request);
+
+        Event::closeOldEvents();
+
+        $dateRange = [
+            'fromDate' => $request->from,
+            'toDate' => $request->to
+        ];
+
+        $events = (new EventHelper())->getEvents($dateRange, $request->days, $request->name);
+
+        if(!$events){
+            return response()->json(['errors'=>['events' => 'No events found']], 422);
+        }
+
+        return Event::insert($events);
+    }
+
+    protected function validateEvents(Request $request)
+    {
+        $rules = [
+            'name' => 'required',
+            'from' => 'required|date',
+            'days' => 'required|array',
+            'to' => 'required|date|after_or_equal:.' . $request->from,
+        ];
+
+        $messages = [
+            'name.required' => 'Name field is required.',
+            'to.required' => 'Date to field is required.',
+            'from.required' => 'Date from field is required.',
+            'to.date' => 'The date to value must be a valid date',
+            'from.date' => 'The date from value must be a valid date',
+            'days.required' => 'You need to select at least one day for the event.',
+            'to.after_or_equal' => "The date to value must be a date after or equal to " . $request->from . '.',
+        ];
+
+        Validator::make($request->all(), $rules, $messages)->validate();
     }
 
 }

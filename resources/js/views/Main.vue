@@ -23,7 +23,16 @@ export default {
 
     },
 
-    methods: {},
+    mounted() {
+        this.getEvents()
+    },
+
+    methods: {
+        getEvents(){
+            axios.get('/api/events')
+                .then(({data}) => console.log(data));
+        },
+    },
 
 }
 
