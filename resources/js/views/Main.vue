@@ -8,7 +8,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-3">
-                            <AddEvent></AddEvent>
+                            <AddEvent @added="getEvents"></AddEvent>
                         </div>
                         <div class="col-md-9 mt-3">
                             <Calendar :events="events"></Calendar>

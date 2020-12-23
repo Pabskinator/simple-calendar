@@ -1943,6 +1943,71 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1968,17 +2033,25 @@ __webpack_require__.r(__webpack_exports__);
         name: 'Sat',
         value: 6
       }],
-      event: {
+      form: new Form({
         to: '',
         from: '',
         days: [],
         name: ''
-      }
+      })
     };
   },
   methods: {
     submitEvent: function submitEvent() {
-      console.log('submit event');
+      var _this = this;
+
+      this.form.post('/api/events').then(function (response) {
+        _this.$emit('added');
+
+        console.log(response);
+      })["catch"](function (error) {
+        return console.log(error);
+      });
     }
   }
 });
@@ -2633,111 +2706,211 @@ var render = function() {
         }
       },
       [
-        _vm._m(0),
-        _vm._v(" "),
-        _vm._m(1),
-        _vm._v(" "),
-        _vm._l(_vm.days, function(day) {
-          return _c(
-            "div",
-            { key: day.name, staticClass: "form-check form-check-inline mt-3" },
-            [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.event.days,
-                    expression: "event.days"
-                  }
-                ],
-                staticClass: "form-check-input",
-                attrs: { type: "checkbox", id: day.name },
-                domProps: {
-                  value: day.value,
-                  checked: Array.isArray(_vm.event.days)
-                    ? _vm._i(_vm.event.days, day.value) > -1
-                    : _vm.event.days
-                },
-                on: {
-                  change: function($event) {
-                    var $$a = _vm.event.days,
-                      $$el = $event.target,
-                      $$c = $$el.checked ? true : false
-                    if (Array.isArray($$a)) {
-                      var $$v = day.value,
-                        $$i = _vm._i($$a, $$v)
-                      if ($$el.checked) {
-                        $$i < 0 &&
-                          _vm.$set(_vm.event, "days", $$a.concat([$$v]))
-                      } else {
-                        $$i > -1 &&
-                          _vm.$set(
-                            _vm.event,
-                            "days",
-                            $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                          )
-                      }
-                    } else {
-                      _vm.$set(_vm.event, "days", $$c)
-                    }
-                  }
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { attrs: { for: "name" } }, [_vm._v("Event")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.form.name,
+                expression: "form.name"
+              }
+            ],
+            staticClass: "form-control",
+            class: { "is-invalid": _vm.form.errors.has("name") },
+            attrs: { id: "name", name: "name", type: "text" },
+            domProps: { value: _vm.form.name },
+            on: {
+              keydown: function($event) {
+                return _vm.form.errors.clear("name")
+              },
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
                 }
-              }),
-              _vm._v(" "),
-              _c(
-                "label",
-                { staticClass: "form-check-label", attrs: { for: day.name } },
-                [_vm._v(_vm._s(day.name))]
-              )
-            ]
-          )
-        }),
+                _vm.$set(_vm.form, "name", $event.target.value)
+              }
+            }
+          }),
+          _vm._v(" "),
+          _vm.form.errors.has("name")
+            ? _c("span", {
+                staticClass: "text-danger",
+                domProps: { textContent: _vm._s(_vm.form.errors.get("name")) }
+              })
+            : _vm._e()
+        ]),
         _vm._v(" "),
-        _vm._m(2)
-      ],
-      2
+        _c("div", { staticClass: "form-row" }, [
+          _c("div", { staticClass: "col" }, [
+            _c("label", { attrs: { for: "from" } }, [_vm._v("From")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.form.from,
+                  expression: "form.from"
+                }
+              ],
+              staticClass: "form-control",
+              class: { "is-invalid": _vm.form.errors.has("from") },
+              attrs: { id: "from", name: "from", type: "date" },
+              domProps: { value: _vm.form.from },
+              on: {
+                input: [
+                  function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.form, "from", $event.target.value)
+                  },
+                  function($event) {
+                    return _vm.form.errors.clear("from")
+                  }
+                ]
+              }
+            }),
+            _vm._v(" "),
+            _vm.form.errors.has("from")
+              ? _c("span", {
+                  staticClass: "text-danger",
+                  domProps: { textContent: _vm._s(_vm.form.errors.get("from")) }
+                })
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col" }, [
+            _c("label", { attrs: { for: "to" } }, [_vm._v("To")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.form.to,
+                  expression: "form.to"
+                }
+              ],
+              staticClass: "form-control",
+              class: { "is-invalid": _vm.form.errors.has("to") },
+              attrs: { id: "to", name: "to", type: "date" },
+              domProps: { value: _vm.form.to },
+              on: {
+                input: [
+                  function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.form, "to", $event.target.value)
+                  },
+                  function($event) {
+                    return _vm.form.errors.clear("to")
+                  }
+                ]
+              }
+            }),
+            _vm._v(" "),
+            _vm.form.errors.has("to")
+              ? _c("span", {
+                  staticClass: "text-danger",
+                  domProps: { textContent: _vm._s(_vm.form.errors.get("to")) }
+                })
+              : _vm._e()
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "mt-3" }, [
+          _c(
+            "div",
+            {
+              staticClass: "p-2",
+              class: { "border border-danger": _vm.form.errors.has("days") }
+            },
+            _vm._l(_vm.days, function(day) {
+              return _c(
+                "div",
+                { key: day.name, staticClass: "form-check form-check-inline" },
+                [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.days,
+                        expression: "form.days"
+                      }
+                    ],
+                    staticClass: "form-check-input",
+                    attrs: { type: "checkbox", id: day.name },
+                    domProps: {
+                      value: day.value,
+                      checked: Array.isArray(_vm.form.days)
+                        ? _vm._i(_vm.form.days, day.value) > -1
+                        : _vm.form.days
+                    },
+                    on: {
+                      input: function($event) {
+                        return _vm.form.errors.clear("days")
+                      },
+                      change: function($event) {
+                        var $$a = _vm.form.days,
+                          $$el = $event.target,
+                          $$c = $$el.checked ? true : false
+                        if (Array.isArray($$a)) {
+                          var $$v = day.value,
+                            $$i = _vm._i($$a, $$v)
+                          if ($$el.checked) {
+                            $$i < 0 &&
+                              _vm.$set(_vm.form, "days", $$a.concat([$$v]))
+                          } else {
+                            $$i > -1 &&
+                              _vm.$set(
+                                _vm.form,
+                                "days",
+                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                              )
+                          }
+                        } else {
+                          _vm.$set(_vm.form, "days", $$c)
+                        }
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    {
+                      staticClass: "form-check-label",
+                      attrs: { for: day.name }
+                    },
+                    [_vm._v(_vm._s(day.name))]
+                  )
+                ]
+              )
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c("div", [
+            _vm.form.errors.has("days")
+              ? _c("span", {
+                  staticClass: "text-danger",
+                  domProps: { textContent: _vm._s(_vm.form.errors.get("days")) }
+                })
+              : _vm._e()
+          ])
+        ]),
+        _vm._v(" "),
+        _vm._m(0)
+      ]
     )
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "eventName" } }, [_vm._v("Event")]),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "form-control",
-        attrs: { type: "text", id: "eventName" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-row" }, [
-      _c("div", { staticClass: "col" }, [
-        _c("label", { attrs: { for: "fromDate" } }, [_vm._v("From")]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "form-control",
-          attrs: { type: "date", id: "fromDate" }
-        })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col" }, [
-        _c("label", { attrs: { for: "toDate" } }, [_vm._v("To")]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "form-control",
-          attrs: { type: "date", id: "toDate" }
-        })
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -2913,7 +3086,12 @@ var render = function() {
       _c("div", { staticClass: "card-body" }, [
         _c("div", { staticClass: "container-fluid" }, [
           _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-md-3" }, [_c("AddEvent")], 1),
+            _c(
+              "div",
+              { staticClass: "col-md-3" },
+              [_c("AddEvent", { on: { added: _vm.getEvents } })],
+              1
+            ),
             _vm._v(" "),
             _c(
               "div",
@@ -18160,18 +18338,21 @@ module.exports = g;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
+/* harmony import */ var _utilities_Form__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utilities/Form */ "./resources/js/utilities/Form.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
+
 
 
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]);
+window.Form = _utilities_Form__WEBPACK_IMPORTED_MODULE_0__["default"];
+Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var app = new Vue({
   el: '#app',
-  router: new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"](_routes__WEBPACK_IMPORTED_MODULE_1__["default"])
+  router: new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"](_routes__WEBPACK_IMPORTED_MODULE_2__["default"])
 });
 
 /***/ }),
@@ -18424,6 +18605,269 @@ __webpack_require__.r(__webpack_exports__);
     component: _views_Main__WEBPACK_IMPORTED_MODULE_1__["default"]
   }]
 });
+
+/***/ }),
+
+/***/ "./resources/js/utilities/Error.js":
+/*!*****************************************!*\
+  !*** ./resources/js/utilities/Error.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Errors = /*#__PURE__*/function () {
+  /**
+   * Create a new Errors instance.
+   */
+  function Errors() {
+    _classCallCheck(this, Errors);
+
+    this.errors = {};
+  }
+  /**
+   * Determine if an errors exists for the given field.
+   *
+   * @param {string} field
+   */
+
+
+  _createClass(Errors, [{
+    key: "has",
+    value: function has(field) {
+      return this.errors.hasOwnProperty(field);
+    }
+    /**
+     * Determine if we have any errors.
+     */
+
+  }, {
+    key: "any",
+    value: function any() {
+      return Object.keys(this.errors).length > 0;
+    }
+    /**
+     * Retrieve the error message for a field.
+     *
+     * @param {string} field
+     */
+
+  }, {
+    key: "get",
+    value: function get(field) {
+      if (this.errors[field]) {
+        return this.errors[field][0];
+      }
+    }
+    /**
+     * Record the new errors.
+     *
+     * @param {object} errors
+     */
+
+  }, {
+    key: "record",
+    value: function record(errors) {
+      this.errors = errors.errors;
+    }
+    /**
+     * Clear one or all error fields.
+     *
+     * @param {string|null} field
+     */
+
+  }, {
+    key: "clear",
+    value: function clear() {
+      var field = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+      if (field) {
+        delete this.errors[field];
+        return;
+      }
+
+      this.errors = {};
+    }
+  }]);
+
+  return Errors;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (Errors);
+
+/***/ }),
+
+/***/ "./resources/js/utilities/Form.js":
+/*!****************************************!*\
+  !*** ./resources/js/utilities/Form.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Error__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Error */ "./resources/js/utilities/Error.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var Form = /*#__PURE__*/function () {
+  /**
+   * Create a new Form instance.
+   *
+   * @param {object} data
+   */
+  function Form(data) {
+    _classCallCheck(this, Form);
+
+    this.originalData = data;
+
+    for (var field in data) {
+      this[field] = data[field];
+    }
+
+    this.errors = new _Error__WEBPACK_IMPORTED_MODULE_0__["default"]();
+  }
+  /**
+   * Fetch all relevant data for the form.
+   */
+
+
+  _createClass(Form, [{
+    key: "data",
+    value: function data() {
+      var data = {};
+
+      for (var property in this.originalData) {
+        data[property] = this[property];
+      }
+
+      return data;
+    }
+    /**
+     * Reset the form fields.
+     */
+
+  }, {
+    key: "reset",
+    value: function reset() {
+      for (var field in this.originalData) {
+        if (typeof this[field] === 'string') {
+          this[field] = '';
+        } else {
+          this[field] = [];
+        }
+      }
+
+      this.errors.clear();
+    }
+    /**
+     * Send a POST request to the given URL.
+     * .
+     * @param {string} url
+     */
+
+  }, {
+    key: "post",
+    value: function post(url) {
+      return this.submit('post', url);
+    }
+    /**
+     * Send a PUT request to the given URL.
+     * .
+     * @param {string} url
+     */
+
+  }, {
+    key: "put",
+    value: function put(url) {
+      return this.submit('put', url);
+    }
+    /**
+     * Send a PATCH request to the given URL.
+     * .
+     * @param {string} url
+     */
+
+  }, {
+    key: "patch",
+    value: function patch(url) {
+      return this.submit('patch', url);
+    }
+    /**
+     * Send a DELETE request to the given URL.
+     * .
+     * @param {string} url
+     */
+
+  }, {
+    key: "delete",
+    value: function _delete(url) {
+      return this.submit('delete', url);
+    }
+    /**
+     * Submit the form.
+     *
+     * @param {string} requestType
+     * @param {string} url
+     */
+
+  }, {
+    key: "submit",
+    value: function submit(requestType, url) {
+      var _this = this;
+
+      return new Promise(function (resolve, reject) {
+        axios[requestType](url, _this.data()).then(function (response) {
+          _this.onSuccess(response.data);
+
+          resolve(response.data);
+        })["catch"](function (error) {
+          _this.onFail(error.response.data);
+
+          reject(error.response.data);
+        });
+      });
+    }
+    /**
+     * Handle a successful form submission.
+     *
+     * @param {object} data
+     */
+
+  }, {
+    key: "onSuccess",
+    value: function onSuccess(data) {
+      this.reset();
+    }
+    /**
+     * Handle a failed form submission.
+     *
+     * @param {object} errors
+     */
+
+  }, {
+    key: "onFail",
+    value: function onFail(errors) {
+      this.errors.record(errors);
+    }
+  }]);
+
+  return Form;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (Form);
 
 /***/ }),
 

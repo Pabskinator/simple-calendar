@@ -1,9 +1,11 @@
+import Form from './utilities/Form';
 import VueRouter from 'vue-router'
 import routes from './routes'
 
 require('./bootstrap');
 
 window.Vue = require('vue');
+window.Form = Form;
 
 Vue.use(VueRouter)
 

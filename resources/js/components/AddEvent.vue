@@ -1,30 +1,95 @@
 <template>
     <div>
         <form @submit.prevent="submitEvent">
+
             <div class="form-group">
-                <label for="eventName">Event</label>
-                <input type="text" class="form-control" id="eventName">
+                <label for="name">Event</label>
+                <input
+                    v-model="form.name"
+                    id="name"
+                    name="name"
+                    type="text"
+                    class="form-control"
+
+                    :class="{'is-invalid': form.errors.has('name')}"
+
+                    @keydown="form.errors.clear('name')">
+
+                <span
+                    v-text="form.errors.get('name')"
+                    v-if="form.errors.has('name')"
+                    class="text-danger">
+
+                </span>
             </div>
             <div class="form-row">
                 <div class="col">
-                    <label for="fromDate">From</label>
-                    <input type="date" class="form-control" id="fromDate">
+                    <label for="from">From</label>
+                    <input
+                        v-model="form.from"
+                        id="from"
+                        name="from"
+                        type="date"
+                        class="form-control"
+
+                        :class="{'is-invalid': form.errors.has('from')}"
+
+                        @input="form.errors.clear('from')">
+
+                    <span
+                        v-text="form.errors.get('from')"
+                        v-if="form.errors.has('from')"
+                        class="text-danger">
+
+                    </span>
                 </div>
+
                 <div class="col">
-                    <label for="toDate">To</label>
-                    <input type="date" class="form-control" id="toDate">
+                    <label for="to">To</label>
+                    <input
+                        v-model="form.to"
+                        id="to"
+                        name="to"
+                        type="date"
+                        class="form-control"
+
+                        :class="{'is-invalid': form.errors.has('to')}"
+
+                        @input="form.errors.clear('to')">
+
+                    <span
+                        v-text="form.errors.get('to')"
+                        v-if="form.errors.has('to')"
+                        class="text-danger">
+
+                    </span>
                 </div>
             </div>
-            <div class="form-check form-check-inline mt-3" v-for="day in days" :key="day.name">
-                <input
-                    v-model="event.days"
-                    type="checkbox"
-                    class="form-check-input"
+            <div class="mt-3">
+                <div class="p-2" :class="{'border border-danger': form.errors.has('days')}">
+                    <div class="form-check form-check-inline" v-for="day in days" :key="day.name">
+                        <input
+                            v-model="form.days"
+                            type="checkbox"
+                            class="form-check-input"
 
-                    :id="day.name"
-                    :value="day.value">
+                            :id="day.name"
+                            :value="day.value"
 
-                <label class="form-check-label" :for="day.name">{{ day.name }}</label>
+                            @input="form.errors.clear('days')">
+
+                        <label class="form-check-label" :for="day.name">{{ day.name }}</label>
+                    </div>
+                </div>
+
+                <div>
+                    <span
+                        v-text="form.errors.get('days')"
+                        v-if="form.errors.has('days')"
+                        class="text-danger">
+
+                    </span>
+                </div>
             </div>
             <div class="mt-2">
                 <button type="submit" class="btn btn-primary">Save</button>
@@ -69,19 +134,25 @@
                     },
                 ],
 
-                event: {
+                form: new Form({
                     to: '',
                     from: '',
                     days: [],
                     name: '',
-                }
+                })
             }
 
         },
 
         methods: {
             submitEvent(){
-                console.log('submit event')
+                this.form
+                    .post('/api/events')
+                    .then(response => {
+                        this.$emit('added')
+                        console.log(response);
+                    })
+                    .catch(error => console.log(error))
             },
         },
     }
