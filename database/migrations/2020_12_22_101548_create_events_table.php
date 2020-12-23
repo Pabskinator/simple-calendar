@@ -18,7 +18,8 @@ class CreateEventsTable extends Migration
             $table->string('name');
             $table->date('date');
             $table->boolean('active')->default(true);
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
         });
     }
 
