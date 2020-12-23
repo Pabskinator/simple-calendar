@@ -99,9 +99,11 @@
 </template>
 
 <script>
-    export default {
-        data() {
+    import { alertMixin } from "../mixins/alertMixin";
 
+    export default {
+        mixins: [alertMixin],
+        data() {
             return {
                 days: [
                     {
@@ -141,7 +143,6 @@
                     name: '',
                 })
             }
-
         },
 
         methods: {
@@ -150,9 +151,13 @@
                     .post('/api/events')
                     .then(response => {
                         this.$emit('added')
+                        this.showToast('', 'Event successfully saved!', 'success')
                         console.log(response);
                     })
-                    .catch(error => console.log(error))
+                    .catch(error => {
+                        console.log(error);
+                        this.showToast('', 'Event not saved!', 'error')
+                    })
             },
         },
     }
