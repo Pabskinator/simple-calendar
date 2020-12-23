@@ -230,7 +230,7 @@ class EventsTest extends TestCase
             'name' => $this->faker->catchPhrase
         ])
         ->assertStatus(422)
-        ->assertJsonStructure(['errors' => ['events']]);
+        ->assertJsonStructure(['errors' => ['days']]);
     }
 
     /**

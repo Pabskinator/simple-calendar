@@ -34,7 +34,7 @@ class EventController extends Controller
         $events = (new EventHelper())->getEvents($dateRange, $request->days, $request->name);
 
         if(!$events){
-            return response()->json(['errors'=>['events' => 'No events found']], 422);
+            return response()->json(['errors'=>['days' => ['Selected day/s are not within the specified date range.']]], 422);
         }
 
         return Event::insert($events);
