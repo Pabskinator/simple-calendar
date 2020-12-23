@@ -15,7 +15,7 @@ class EventController extends Controller
 
         $months = (new EventHelper())->extractMonthsWithinDates($events);
 
-        $months_and_days = (new EventHelper())->extractDaysWithinAMonth($months);
+        $months_and_days = (new EventHelper())->extractDaysWithinAMonth($months, $events);
 
         return compact('events', 'months_and_days');
     }

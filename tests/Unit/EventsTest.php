@@ -62,7 +62,7 @@ class EventsTest extends TestCase
 
         $months =(new EventHelper())->extractMonthsWithinDates($dates);
 
-        $all_dates = (new EventHelper())->extractDaysWithinAMonth($months);
+        $all_dates = (new EventHelper())->extractDaysWithinAMonth($months, $dates);
 
         $this->assertCount(Carbon::parse($months[0])->daysInMonth, $all_dates[0]->dates);
         $this->assertCount(Carbon::parse($months[1])->daysInMonth, $all_dates[1]->dates);
@@ -242,7 +242,7 @@ class EventsTest extends TestCase
 
     protected function generateSampleDays()
     {
-        return [0];
+        return [1];
     }
 
     protected function getEvents()

@@ -16,7 +16,6 @@ class Event extends Model
 
     protected $casts = [
         'active' => 'integer',
-        'date' => 'date'
     ];
 
     public static function closeOldEvents()

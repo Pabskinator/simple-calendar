@@ -29,21 +29,41 @@ class EventHelper
         return $months_array;
     }
 
-    public function extractDaysWithinAMonth($months)
+    public function extractDaysWithinAMonth($months, $events)
     {
         $month_and_dates = [];
         $all_dates = [];
+        $event_dates = array_column($events->toArray(), 'date');
+        $event_name = $events->groupBy('name')->keys()->first();
+
 
         foreach ($months as $month){
             $startDate = Carbon::parse($month)->startOfMonth();
             $endDate = Carbon::parse($month)->endOfMonth();
 
             while ($startDate->lessThanOrEqualTo($endDate)){
-                $all_dates[] = $startDate->format('d D');
+                if(in_array($startDate->toDateString(), $event_dates)){
+                    $active = true;
+                    $name = $event_name;
+                }else{
+                    $active = false;
+                    $name = '';
+                }
+
+                $all_dates[] = (object) [
+                    'name' => $name,
+                    'active' => $active,
+                    'date' => $startDate->format('d D'),
+                ];
+
                 $startDate->addDay();
             }
 
-            $month_and_dates[$month] = $all_dates;
+            $month_and_dates[] = (object) [
+                'month_name' => $month,
+                'dates' => $all_dates
+            ];
+
             $all_dates = [];
         }
 
@@ -77,5 +97,4 @@ class EventHelper
 
         return $dateList;
     }
-
 }
