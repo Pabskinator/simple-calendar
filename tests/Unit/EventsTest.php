@@ -64,8 +64,8 @@ class EventsTest extends TestCase
 
         $all_dates = (new EventHelper())->extractDaysWithinAMonth($months);
 
-        $this->assertCount(Carbon::parse($months[0])->daysInMonth, $all_dates['Nov 2020']);
-        $this->assertCount(Carbon::parse($months[1])->daysInMonth, $all_dates['Dec 2020']);
+        $this->assertCount(Carbon::parse($months[0])->daysInMonth, $all_dates[0]->dates);
+        $this->assertCount(Carbon::parse($months[1])->daysInMonth, $all_dates[1]->dates);
     }
 
     /** @test */

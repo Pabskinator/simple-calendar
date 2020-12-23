@@ -38,6 +38,9 @@ class EventFactory extends Factory
      */
     public function createEvents(array $dateRange = null, array $days = null)
     {
+        $dateRange = $dateRange ? $dateRange : $this->generateDateRange();
+        $days = $days ? $days : $this->generateDays();
+
         return $this->createMany((new EventHelper())->getEvents($dateRange, $days, $this->faker->catchPhrase));
     }
 
