@@ -41,6 +41,11 @@ class Event extends Model
         'active' => 'integer',
     ];
 
+    /**
+     * Deactivates old events
+     *
+     * @return array|bool|int
+     */
     public static function closeOldEvents()
     {
         return Event::where('active', 1)

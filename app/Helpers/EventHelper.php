@@ -8,6 +8,13 @@ use Carbon\CarbonPeriod;
 class EventHelper
 {
 
+    /**
+     * Extracts the months within a given array of dates
+     * Defaults to current month if dates are empty
+     *
+     * @param $dates
+     * @return array|string
+     */
     public function extractMonthsWithinDates($dates)
     {
         if($dates->isEmpty()){
@@ -29,6 +36,14 @@ class EventHelper
         return $months_array;
     }
 
+    /**
+     * Extracts the dates within months
+     * Assigns active event dates and names to dates
+     *
+     * @param $months
+     * @param $events
+     * @return array
+     */
     public function extractDaysWithinAMonth($months, $events)
     {
         $month_and_dates = [];
@@ -70,6 +85,14 @@ class EventHelper
         return $month_and_dates;
     }
 
+    /**
+     * Generates sample events
+     *
+     * @param $dateRange
+     * @param $days
+     * @param $name
+     * @return array
+     */
     public function getEvents($dateRange, $days, $name)
     {
         $dateFrom = Carbon::parse($dateRange['fromDate']);

@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Database\Factories\EventFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use phpDocumentor\Reflection\Types\Collection;
 use Tests\TestCase;
 
 class EventsTest extends TestCase
@@ -232,6 +233,11 @@ class EventsTest extends TestCase
         ->assertJsonStructure(['errors' => ['events']]);
     }
 
+    /**
+     * Use this to generate sample date range
+     *
+     * @return array
+     */
     protected function generateSampleDateRange()
     {
         return [
@@ -240,11 +246,21 @@ class EventsTest extends TestCase
         ];
     }
 
+    /**
+     * Use this to generate sample days (0-6) sun to sat
+     *
+     * @return array
+     */
     protected function generateSampleDays()
     {
         return [1];
     }
 
+    /**
+     * Use this to generate sample events
+     *
+     * @return array
+     */
     protected function getEvents()
     {
         $dateRange = $this->generateSampleDateRange();
@@ -253,6 +269,11 @@ class EventsTest extends TestCase
         return (new EventHelper())->getEvents($dateRange, $days, $this->faker->catchPhrase);
     }
 
+    /**
+     * Use this to create events
+     *
+     * @return Collection
+     */
     protected function createEvents()
     {
         $dateRange = $this->generateSampleDateRange();
